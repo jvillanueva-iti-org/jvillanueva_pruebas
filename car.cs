@@ -1,6 +1,8 @@
 class Car 
 {
   string color = "red";
+  
+  sadasdasd
 
   static void Main(string[] args)
   {
