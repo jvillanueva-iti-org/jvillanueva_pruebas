@@ -2,7 +2,10 @@ class Car
 {
   string color = "red";
   
-  sadasdasd
+   public void DoStuff([Optional][DefaultValue(4)]int i, int j = 5)  // Noncompliant
+    {
+        Console.WriteLine(i);
+    }
 
   static void Main(string[] args)
   {
