@@ -21,8 +21,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - uses: phwt/sonarqube-quality-gate-action@v1
-        id: quality-gate-check
+      - name: SonarQube Quality Gate Report
+        uses: phwt/sonarqube-quality-gate-action@v1.3.2
         with:
           sonar-project-key: ${{ secrets.SONAR_PROJECT_KEY }}
           sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
