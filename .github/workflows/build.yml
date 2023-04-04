@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - 15.0
-      - 14.0-dev
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -29,6 +27,18 @@ jobs:
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
+         
+      - name: Add comment to PR
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}
+            })
 
       # Optionally you can use the output from the Quality Gate in another step.
       # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
