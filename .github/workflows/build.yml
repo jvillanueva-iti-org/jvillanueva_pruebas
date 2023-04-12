@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -22,14 +22,13 @@ jobs:
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
-        # Force to fail step after specific time.
         timeout-minutes: 5
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} #OPTIONAL
+         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
          
       - name: Comment PR
-        if: always()
+        if:  (success() || failure()) && github.event_name == "pull_request"
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
