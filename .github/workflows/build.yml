@@ -19,20 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch
-        
-      - name: "Echo"
-        run: echo ${{ steps.comment-branch.outputs.head_ref }}
-        
-      - name: "Echo"
-        run: echo ${{ steps.comment-branch.outputs.base_ref }}
-        
-      - name: "Echo"
-        run: echo ${{ steps.comment-branch.outputs.base_sha }}
-        
-      - name: "Echo"
-        run: echo ${{ steps.comment-branch.outputs.head_sha }}
-        
+        id: comment-branch        
       - name: Checkout Pull Request
         uses: actions/checkout@v3
         with:
@@ -43,8 +30,8 @@ jobs:
             args: >
               -Dsonar.projectKey=Pruebas
               -Dsonar.pullrequest.key=${{ github.event.issue.number }}
-              -Dsonar.pullrequest.branch=dev
-              -Dsonar.pullrequest.base=main
+              -Dsonar.pullrequest.branch=${{ steps.comment-branch.outputs.head_ref }}
+              -Dsonar.pullrequest.base=${{ steps.comment-branch.outputs.base_ref }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
