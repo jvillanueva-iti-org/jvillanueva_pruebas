@@ -25,7 +25,8 @@ jobs:
           path: PR
       - uses: sonarsource/sonarqube-scan-action@master
         with:
-           projectKey: "Pruebas"
+            args: >
+              -Dsonar.projectKey=Pruebas
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
