@@ -32,6 +32,7 @@ jobs:
               -Dsonar.pullrequest.key=${{ github.event.issue.number }}
               -Dsonar.pullrequest.branch=${{ steps.comment-branch.outputs.head_ref }}
               -Dsonar.pullrequest.base=${{ steps.comment-branch.outputs.base_ref }}
+              -Dsonar.python.version=3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
