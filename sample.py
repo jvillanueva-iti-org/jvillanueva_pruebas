@@ -1,24 +1,3 @@
-# This program adds two numbers
-target = -5
-num = 3
-
-target =- num  # Noncompliant; target = -3. Is that really what's meant?
-target =+ num # Noncompliant; target = 3
-
-target =- num  # Noncompliant; target = -3. Is that really what's meant?
-target =+ num # Noncompliant; target = 3
-
-target =- num  # Noncompliant; target = -3. Is that really what's meant?
-target =+ num # Noncompliant; target = 3
-
-target =- num  # Noncompliant; target = -3. Is that really what's meant?
-target =+ num # Noncompliant; target = 3
-
-target =- num  # Noncompliant; target = -3. Is that really what's meant?
-target =+ num # Noncompliant; target = 3
-
-# Modificado
-
 num1 = 1.5
 num2 = 6.3
 
