@@ -18,15 +18,11 @@ jobs:
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/deploy test') }}
     runs-on: ubuntu-latest
     steps:
-      - name: "Get PR's branch name"
-        id: get_branch
-        run: |
-          PR=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" ${{ github.event.issue.pull_request.url }})
-          echo "::set-output name=branch::$(echo $PR | jq -r '.head.ref')"
-      - uses: actions/checkout@v2
+      - name: Checkout Pull Request
+        uses: actions/checkout@v3
         with:
-          ref: ${{ steps.get_branch.outputs.branch }}
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          ref: "refs/pull/${{ github.event.issue.number }}/head"
+          path: PR
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
