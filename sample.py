@@ -5,6 +5,18 @@ num = 3
 target =- num  # Noncompliant; target = -3. Is that really what's meant?
 target =+ num # Noncompliant; target = 3
 
+target =- num  # Noncompliant; target = -3. Is that really what's meant?
+target =+ num # Noncompliant; target = 3
+
+target =- num  # Noncompliant; target = -3. Is that really what's meant?
+target =+ num # Noncompliant; target = 3
+
+target =- num  # Noncompliant; target = -3. Is that really what's meant?
+target =+ num # Noncompliant; target = 3
+
+target =- num  # Noncompliant; target = -3. Is that really what's meant?
+target =+ num # Noncompliant; target = 3
+
 # Modificado
 
 num1 = 1.5
