@@ -1,0 +1,21 @@
+ if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/deploy test') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch        
+      - name: Checkout Pull Request
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/pull/${{ github.event.issue.number }}/head"
+          path: PR
+      - uses: sonarsource/sonarqube-scan-action@master
+        with:
+            args: >
+              -Dsonar.projectKey=Pruebas
+              -Dsonar.pullrequest.key=${{ github.event.issue.number }}
+              -Dsonar.pullrequest.branch=${{ steps.comment-branch.outputs.head_ref }}
+              -Dsonar.pullrequest.base=${{ steps.comment-branch.outputs.base_ref }}
+              -Dsonar.python.version=3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
