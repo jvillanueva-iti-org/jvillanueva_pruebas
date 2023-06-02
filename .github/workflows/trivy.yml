@@ -13,5 +13,5 @@ jobs:
           
       - name: Trivy analysis
         run: |
-         docker run --rm -v .:/temp aquasec/trivy fs --scanners vuln temp --dependency-tree --format sarif -o temp/report-trivy-backend.sarif
+         docker run --rm -v ${{ github.workspace }}:/temp aquasec/trivy fs --scanners vuln temp --dependency-tree --format sarif -o temp/report-trivy-backend.sarif
     
