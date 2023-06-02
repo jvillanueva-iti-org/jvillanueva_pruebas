@@ -1,22 +1,27 @@
- if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/deploy test') }}
-    runs-on: ubuntu-latest
+name: build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
     steps:
-      - uses: xt0rted/pull-request-comment-branch@v2
-        id: comment-branch        
-      - name: Checkout Pull Request
+      - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
         with:
-          ref: "refs/pull/${{ github.event.issue.number }}/head"
-          path: PR
-      - uses: sonarsource/sonarqube-scan-action@master
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
         with:
-            args: >
-              -Dsonar.projectKey=Pruebas
-              -Dsonar.pullrequest.key=${{ github.event.issue.number }}
-              -Dsonar.pullrequest.branch=${{ steps.comment-branch.outputs.head_ref }}
-              -Dsonar.pullrequest.base=${{ steps.comment-branch.outputs.base_ref }}
-              -Dsonar.python.version=3
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
- 
+          sarif_file: 'trivy-results.sarif'
